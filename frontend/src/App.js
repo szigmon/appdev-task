@@ -1,3 +1,4 @@
+//Frontend service 
 import React from 'react';
 import './App.css';
 import EventList from './components/EventList';
