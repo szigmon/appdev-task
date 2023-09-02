@@ -55,7 +55,7 @@ function EventList() {
           ))}
         </tbody>
       </table>
-      <EventForm onEventCreated={handleEventCreated} onEventDeleted={handleEventDeleted} />
+      <EventForm onEventCreated={handleEventCreated} />
     </div>
   );
 }

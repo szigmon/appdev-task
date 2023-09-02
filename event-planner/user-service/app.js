@@ -46,6 +46,29 @@ app.get('/users', (req, res) => {
     });
   });  
 
+  app.delete('/users/:id', (req, res) => {
+    const id = req.params.id;
+    db.run('DELETE FROM users WHERE id = ?', id, (err) => {
+      if (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+      } else {
+        res.send('User deleted successfully');
+      }
+    });
+  });
+  app.delete('/users/:id', (req, res) => {
+    const id = req.params.id;
+    db.run('DELETE FROM users WHERE id = ?', id, (err) => {
+      if (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+      } else {
+        res.send('User deleted successfully');
+      }
+    });
+  });
+
 app.listen(port, () => {
   console.log(
     `Example app listening at http://localhost:${port}`

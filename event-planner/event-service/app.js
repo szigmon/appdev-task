@@ -18,14 +18,16 @@ app.use(cors());
 
 // Create events table
 db.serialize(() => {
-    db.run(
-      `CREATE TABLE IF NOT EXISTS events (
-         id INTEGER PRIMARY KEY AUTOINCREMENT,
-         date TEXT NOT NULL,
-         name TEXT
+  db.run(
+    `CREATE TABLE IF NOT EXISTS events (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      date TEXT NOT NULL,
+      name TEXT
     );`
-    );
+  , (err) => {
+    if (err) console.log(err.message);
   });
+});
   
 // Enable JSON body parsing
 app.use(express.json());
@@ -43,6 +45,7 @@ app.get('/events', (req, res) => {
 });
 
 app.post('/events', (req, res) => {
+    console.log('POST request received');
     const { name, date } = req.body;
     db.run(
       'INSERT INTO events (name, date) VALUES (?, ?)',
@@ -56,7 +59,7 @@ app.post('/events', (req, res) => {
         }
       }
     );
-  });
+});
 
 app.delete('/events/:id', (req, res) => {
   const id = req.params.id;
