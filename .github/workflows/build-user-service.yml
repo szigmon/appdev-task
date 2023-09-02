@@ -1,0 +1,34 @@
+name: Build and Test User Service
+
+on:
+  push:
+    paths:
+      - 'user-service/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install Dependencies
+      run: cd user-service && npm install
+
+    - name: Run Tests
+      run: cd user-service && npm test
+
+    - name: Build UBI-based Docker Image
+      run: cd user-service && docker build -t user-service:$GITHUB_SHA .
+
+    - name: Login to Quay.io
+      run: docker login quay.io -u ${{ secrets.QUAY_USERNAME }} -p ${{ secrets.QUAY_PASSWORD }}
+
+    - name: Push UBI-based Docker Image to Quay.io
+      run: docker push quay.io/szigmon/user-service:$GITHUB_SHA
