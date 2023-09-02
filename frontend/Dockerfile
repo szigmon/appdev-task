@@ -1,21 +1,24 @@
-# Use Red Hat Universal Base Image (UBI)
-FROM registry.access.redhat.com/ubi8/nodejs-14
+# Use an official Node runtime as the base image
+FROM node:14
+
+# Create a non-root user
+RUN useradd -m myuser
 
 # Set the working directory
 WORKDIR /usr/src/app
 
+# Change ownership of the working directory
+RUN chown myuser:myuser /usr/src/app
+
+# Switch to the non-root user
+USER myuser
+
 # Install app dependencies
-COPY package*.json ./
+COPY --chown=myuser:myuser package*.json ./
 RUN npm install
 
 # Bundle app source
-COPY . .
+COPY --chown=myuser:myuser . .
 
-# Build the React app
-RUN npm run build
-
-# Expose the port the app runs on
-EXPOSE 3000
-
-# Command to run the application
-CMD [ "npm", "start" ]
+# Run the application
+CMD ["npm", "start"]
