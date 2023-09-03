@@ -1,16 +1,17 @@
-//User service function
+// User service function
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 
 const app = express();
-const port = 3002;
+const port = process.env.PORT || 3002;  // Use environment variable for port
+const dbName = process.env.DB_NAME || 'user_database.db';  // Use environment variable for database name
 
-const db = new sqlite3.Database('user_database.db', (err) => {
+const db = new sqlite3.Database(dbName, (err) => {
     if (err) {
       console.error(err.message);
     }
-    console.log('Connected to the SQLite database for user-service on port 3002');
+    console.log(`Connected to the SQLite database for user-service on port ${port}`);
 });
 
 app.use(cors());

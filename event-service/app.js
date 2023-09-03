@@ -1,17 +1,18 @@
-//Event service function
+// Event service function
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;  // Use environment variable for port
+const dbName = process.env.DB_NAME || 'event_database.db';  // Use environment variable for database name
 
 // Database Connection
-const db = new sqlite3.Database('event_database.db', (err) => {
+const db = new sqlite3.Database(dbName, (err) => {
     if (err) {
       console.error(err.message);
     }
-    console.log('Connected to the SQLite database for event service on port 3001');
+    console.log(`Connected to the SQLite database for event-service on port ${port}`);
 });
 
 // Enable CORS

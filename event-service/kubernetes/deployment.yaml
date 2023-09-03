@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: event-service
+  template:
+    metadata:
+      labels:
+        app: event-service
+    spec:
+      containers:
+      - name: event-service
+        image: event-service-image:latest
+        ports:
+        - containerPort: 3001
+        envFrom:
+        - configMapRef:
+            name: event-service-config
+        - secretRef:
+            name: event-service-secret
+        volumeMounts:
+        - mountPath: "/data"
+          name: event-service-pvc
+      volumes:
+      - name: event-service-pvc
+        persistentVolumeClaim:
+          claimName: event-service-pvc

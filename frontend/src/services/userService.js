@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:3002';
+// Use environment variable for API URL or default to 'http://localhost:3002'
+const API_URL = process.env.REACT_APP_USER_API_URL || 'http://localhost:3002';
 
 export async function getUsers() {
   const response = await fetch(`${API_URL}/users`);
